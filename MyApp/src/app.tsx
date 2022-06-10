@@ -1,12 +1,46 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
+import color from './themes/colors/color'
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring
+} from 'react-native-reanimated'
+import Header from './components/Header/Header'
 
 const App = () => {
+  const contentRotateY = useSharedValue(0)
+  const contentTranslateX = useSharedValue(0)
+  const contentScale = useSharedValue(0)
+
+  const [openMenu, setOpenMenu] = useState(false)
+  const [openOnboardModal, setOpenOnboardModal] = useState(false)
+  const [openSignModal, setOpenSignModal] = useState(false)
+
+  useEffect(() => {
+    const options = { damping: 5 }
+
+    contentRotateY.value = withSpring(openMenu ? -30 : 0, options)
+    contentTranslateX.value = withSpring(openMenu ? 30 : 0, options)
+  }, [openMenu, openOnboardModal])
+
+  const animatedContentSyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: 207 },
+      { perspective: 400 },
+      { rotateY: `${contentRotateY.value}deg` },
+      { translateX: -207 },
+      { translateX: contentTranslateX.value }
+    ]
+  }))
   return (
     <NavigationContainer>
       <View style={styles.view}>
-        <Text>Hello !!!</Text>
+        <Header openMenu={openMenu} setIsOpenMenu={setOpenMenu} />
+        <Animated.View style={[styles.Content, animatedContentSyle]}>
+          <Text>Hello</Text>
+        </Animated.View>
       </View>
     </NavigationContainer>
   )
@@ -17,8 +51,12 @@ export default App
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: color.colors.primaryDark,
+    justifyContent: 'center'
+  },
+  Content: {
+    flex: 1,
+    backgroundColor: color.colors.background,
+    borderRadius: 30
   }
 })
