@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack'
-import * as React from 'react'
+import React, { useState } from 'react'
 //
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { NavigationContainer } from '@react-navigation/native'
@@ -12,12 +12,16 @@ import HomeStackNavigator from './HomeStack/HomeStackNavigator'
 
 //import Screen
 import HomeScreen from '../screens/Home/HomeScreen'
+import SideBar from '../components/SideBar/SideBar'
+import SideBar2 from '../components/SideBar2/SideBar2'
+import ScheduleScreen from '../screens/ScheduleScreen/ScheduleScreen'
 
 export type RootStackParams = {
   HomeStackNavigator: undefined
 }
 export type HomeDrawerParamList = {
-  Main: {}
+  HomeScreen: {}
+  ScheduleScreen: {}
 }
 const Stack = createStackNavigator<RootStackParams>()
 const Drawer = createDrawerNavigator<HomeDrawerParamList>()
@@ -25,15 +29,23 @@ const Drawer = createDrawerNavigator<HomeDrawerParamList>()
 function Home() {
   return (
     <Drawer.Navigator
-      initialRouteName="Main"
+      initialRouteName="HomeScreen"
       screenOptions={{
         drawerType: 'back',
         swipeEdgeWidth: 200
       }}
+      drawerContent={props => <SideBar2 {...props} />}
     >
       <Drawer.Screen
-        name="Main"
+        name="HomeScreen"
         component={HomeScreen}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Drawer.Screen
+        name="ScheduleScreen"
+        component={ScheduleScreen}
         options={{
           headerShown: false
         }}
@@ -54,12 +66,13 @@ const AppNavigation = () => {
               }}
             >
               <Stack.Screen
-                name="Home"
+                name="HomeScreen"
                 component={Home}
                 options={{
                   headerShown: false
                 }}
               />
+
               <Stack.Screen
                 name={'HomeStackNavigator'}
                 component={HomeStackNavigator}

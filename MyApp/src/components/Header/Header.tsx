@@ -7,6 +7,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import Rive, { RiveRef } from 'rive-react-native'
 import { position } from '@shopify/restyle'
+import color from '@/themes/colors/color'
 
 interface IHeader {
   openMenu: boolean
@@ -40,13 +41,11 @@ export default Header
 
 const styles = StyleSheet.create({
   Container: {
-    width: '100%',
-    padding: 20,
-    top: 68,
-    position: 'absolute',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    zIndex: 99
+    position: 'absolute',
+    zIndex: 9,
+    bottom: 10,
+    paddingLeft: 15
   },
   MenuButton: {
     width: 40,
@@ -54,6 +53,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 22,
-    backgroundColor: 'red'
+    backgroundColor: color.colors.purple
   }
 })
