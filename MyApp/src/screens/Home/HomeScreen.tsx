@@ -12,6 +12,7 @@ import SideBar from '@/components/SideBar/SideBar'
 import { userList } from '@/utils/data'
 import UserCard from '@/components/UserCard/UserCard'
 import FastImage from 'react-native-fast-image'
+import SearchBar from '@/components/SearchBar/SearchBar'
 
 const HomeScreen = () => {
   const contentRotateY = useSharedValue(0)
@@ -56,10 +57,9 @@ const HomeScreen = () => {
   }
   return (
     <View style={styles.view}>
-      <SideBar openMenu={openMenu} />
-
       <Animated.View style={[styles.Content, animatedContentSyle]}>
-        <ScrollView style={{ flex: 1, paddingTop: 30 }}>
+        <ScrollView style={{ paddingTop: 50 }}>
+          <SearchBar />
           <FlatList
             data={userList}
             keyExtractor={item => item.name}
@@ -70,6 +70,8 @@ const HomeScreen = () => {
           />
         </ScrollView>
       </Animated.View>
+      <SideBar openMenu={openMenu} />
+
       <Header openMenu={openMenu} setIsOpenMenu={setOpenMenu} />
     </View>
   )
