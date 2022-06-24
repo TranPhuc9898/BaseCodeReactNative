@@ -10,6 +10,9 @@ import React, { useEffect } from 'react'
 //
 import { KeyboardEvents } from 'react-native-keyboard-controller'
 import Toast from 'react-native-toast-message'
+//
+import debounce from 'lodash/debounce'
+import hookListUser from '../ListUser/hook/hookListUser'
 
 interface ISearchBar {
   placeHolder?: string
@@ -18,7 +21,7 @@ interface ISearchBar {
   style?: StyleProp<ViewStyle>
 }
 
-const EventsListener: React.FC<ISearchBar> = ({
+const SearchBar: React.FC<ISearchBar> = ({
   placeHolder,
   value,
   onChangeText,
@@ -69,20 +72,22 @@ const EventsListener: React.FC<ISearchBar> = ({
         value={value}
         onChangeText={onChangeText}
       />
+      <Toast topOffset={3} visibilityTime={800} />
     </View>
   )
 }
 
-export default function SearchBar() {
-  return (
-    <>
-      <EventsListener placeHolder="Search..." />
-      <View style={{ paddingTop: 50 }}>
-        <Toast topOffset={5} />
-      </View>
-    </>
-  )
-}
+export default SearchBar
+//   () {
+//   return (
+//     <>
+//       <EventsListener placeHolder="Search..."  />
+//       <View style={{ paddingTop: 50 }}>
+//         <Toast topOffset={5} />
+//       </View>
+//     </>
+//   )
+// }
 
 const styles = StyleSheet.create({
   searchBar: {

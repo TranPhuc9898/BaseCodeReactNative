@@ -4,8 +4,8 @@ export declare module SearchUsersGithubApi {
     items: Array<{
       avatar_url: string
       login: string
-      type: string
       url: string
+      id: number
     }>
   }
 

@@ -1,4 +1,11 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import Animated, {
@@ -14,7 +21,28 @@ import UserCard from '@/components/UserCard/UserCard'
 import FastImage from 'react-native-fast-image'
 import SearchBar from '@/components/SearchBar/SearchBar'
 
+import debounce from 'lodash/debounce'
+import hookListUser from '@/components/ListUser/hook/hookListUser'
+import ListUser from '@/components/ListUser/ListUser'
+
+const DELAY_DEBOUNCE_IN_MS = 1000
+
+const handler = (value: string, callback: (newValue: string) => void) => {
+  callback(value)
+}
+
+const debounceSearchUser = debounce(handler, DELAY_DEBOUNCE_IN_MS)
+
 const HomeScreen = () => {
+  const { setSearch, error, users, loading } = hookListUser()
+
+  const handleOnChangeText = (value: string) => {
+    debounceSearchUser(value, (newValue: string) => {
+      setSearch(newValue)
+    })
+  }
+
+  ///////////
   const contentRotateY = useSharedValue(0)
   const contentTranslateX = useSharedValue(0)
   const contentScale = useSharedValue(0)
@@ -40,34 +68,28 @@ const HomeScreen = () => {
     ]
   }))
 
-  const renderUserList = ({
-    item
-  }: {
-    item: {
-      name: string
-      subName: string
-      image: string
-    }
-  }) => {
-    return (
-      <View>
-        <UserCard name={item.name} subName={item.subName} image={item.image} />
-      </View>
-    )
-  }
   return (
     <View style={styles.view}>
       <Animated.View style={[styles.Content, animatedContentSyle]}>
         <ScrollView style={{ paddingTop: 50 }}>
-          <SearchBar />
-          <FlatList
-            data={userList}
-            keyExtractor={item => item.name}
-            renderItem={renderUserList}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ marginTop: 18, paddingRight: 24 }}
+          {loading && (
+            <ActivityIndicator
+              color={'#EE82EE'}
+              size="large"
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'row'
+              }}
+            />
+          )}
+
+          <SearchBar
+            // onChangeText chỉ nhận 1 cái text
+            onChangeText={handleOnChangeText}
+            placeHolder="Search..."
           />
+          <ListUser products={users} />
         </ScrollView>
       </Animated.View>
       <SideBar openMenu={openMenu} />

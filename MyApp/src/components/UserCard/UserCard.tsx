@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
 // import lib
@@ -7,32 +7,33 @@ import FastImage from 'react-native-fast-image'
 import color from '@/themes/colors/color'
 
 interface IUserCard {
-  name: string
-  subName: string
-  link?: string
-  image: string
+  login: string
+  id: number
+  url: string
+  avatar_url: string
 }
-const UserCard: React.FC<IUserCard> = ({ name, subName, link, image }) => {
+const UserCard: React.FC<IUserCard> = ({ login, id, url, avatar_url }) => {
   return (
     <View style={styles.Container}>
       <View style={styles.Gradient}>
         <View style={styles.Content}>
           <View style={styles.Header}>
-            <Text numberOfLines={2} style={styles.Name}>
-              {name}
-            </Text>
-          </View>
-          <View style={styles.SubName}>
-            <Text style={styles.SubNamee} numberOfLines={2}>
-              {subName}
+            <Text numberOfLines={1} style={styles.Name}>
+              {login}
             </Text>
           </View>
         </View>
-        <FastImage
-          style={styles.defaultImage}
-          source={{ uri: image }}
-          resizeMode={FastImage.resizeMode.contain}
-        />
+        <View>
+          <TouchableOpacity
+            onPress={() => Linking.openURL('https://github.com' + '/' + login)}
+          >
+            <FastImage
+              style={styles.defaultImage}
+              source={{ uri: avatar_url }}
+              resizeMode={FastImage.resizeMode.contain}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 10
     },
-    backgroundColor: color.colors.shadow,
+    backgroundColor: color.colors.purple,
     marginLeft: 20,
     marginBottom: 22,
     borderRadius: 30
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   Name: {
-    color: color.colors.purple,
+    color: color.colors.background,
     fontSize: 24
   },
   SubName: {
@@ -83,9 +84,14 @@ const styles = StyleSheet.create({
   defaultImage: {
     width: 200,
     height: 200,
-    maxHeight: 200,
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
     borderRadius: 30
+  },
+  url: {
+    width: '100%',
+    marginTop: 10,
+    textAlign: 'center',
+    color: '#FF00FF'
   }
 })
