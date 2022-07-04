@@ -1,18 +1,37 @@
-import { Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import {
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Platform
+} from 'react-native'
+import React, { useState } from 'react'
 
 // import lib
 import FastImage from 'react-native-fast-image'
 // import folder
 import color from '@/themes/colors/color'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '@/redux/store'
+import { addProductToCart } from '@/redux/checkOutCard'
 
 interface IUserCard {
   login: string
-  id: number
+  id: string
   url: string
   avatar_url: string
 }
 const UserCard: React.FC<IUserCard> = ({ login, id, url, avatar_url }) => {
+  const [stateHeart, setStateHeart] = useState(false)
+  //Redux
+  const dispatch = useDispatch()
+
+  const checkoutCart = useSelector((state: RootState) => state.checkOutCart)
+
+  const pressHeart = () => {
+    setStateHeart(!stateHeart)
+  }
   return (
     <View style={styles.Container}>
       <View style={styles.Gradient}>
@@ -23,7 +42,7 @@ const UserCard: React.FC<IUserCard> = ({ login, id, url, avatar_url }) => {
             </Text>
           </View>
         </View>
-        <View>
+        <View style={{ paddingTop: 50 }}>
           <TouchableOpacity
             onPress={() => Linking.openURL('https://github.com' + '/' + login)}
           >
@@ -32,6 +51,24 @@ const UserCard: React.FC<IUserCard> = ({ login, id, url, avatar_url }) => {
               source={{ uri: avatar_url }}
               resizeMode={FastImage.resizeMode.contain}
             />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.Heart}>
+          <TouchableOpacity
+            style={styles.heartCircle}
+            onPress={pressHeart}
+            onPressIn={() => {
+              dispatch(addProductToCart(id))
+            }}
+          >
+            {stateHeart && (
+              <FastImage
+                style={styles.heartImage}
+                source={require('../../assets/images/heart.png')}
+                resizeMode={FastImage.resizeMode.contain}
+              />
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -93,5 +130,41 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: 'center',
     color: '#FF00FF'
+  },
+  Heart: {
+    position: 'absolute',
+    bottom: -4,
+    right: -3,
+    width: 24,
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  heartCircle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: 'white',
+    ...Platform.select({
+      android: { elevation: 3 },
+      ios: {
+        shadowColor: 'grey',
+        shadowOpacity: 1,
+        shadowRadius: 1,
+        shadowOffset: {
+          width: 0.5,
+          height: 0.5
+        }
+      }
+    })
+  },
+  heartImage: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    width: 18,
+    height: 18
   }
 })

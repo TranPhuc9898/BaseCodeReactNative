@@ -5,12 +5,16 @@ import AppNavigation from './navigation/AppNavigation'
 
 //
 import { KeyboardProvider } from 'react-native-keyboard-controller'
-
+//
+import { Provider } from 'react-redux'
+import store from './redux/store'
 const app = (): JSX.Element => {
   return (
-    <KeyboardProvider statusBarTranslucent>
-      <AppNavigation />
-    </KeyboardProvider>
+    <Provider store={store}>
+      <KeyboardProvider statusBarTranslucent>
+        <AppNavigation />
+      </KeyboardProvider>
+    </Provider>
   )
 }
 

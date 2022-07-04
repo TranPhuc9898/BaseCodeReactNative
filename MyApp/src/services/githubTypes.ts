@@ -5,7 +5,7 @@ export declare module SearchUsersGithubApi {
       avatar_url: string
       login: string
       url: string
-      id: number
+      id: string
     }>
   }
 
