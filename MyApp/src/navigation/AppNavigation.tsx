@@ -14,14 +14,14 @@ import HomeStackNavigator from './HomeStack/HomeStackNavigator'
 import HomeScreen from '../screens/Home/HomeScreen'
 import SideBar from '../components/SideBar/SideBar'
 import SideBar2 from '../components/SideBar2/SideBar2'
-import ScheduleScreen from '../screens/ScheduleScreen/ScheduleScreen'
+import FavorScreen from '../screens/FavorScreen/FavorScreen'
 
 export type RootStackParams = {
   HomeStackNavigator: undefined
 }
 export type HomeDrawerParamList = {
   HomeScreen: {}
-  ScheduleScreen: {}
+  FavorScreen: {}
 }
 const Stack = createStackNavigator<RootStackParams>()
 const Drawer = createDrawerNavigator<HomeDrawerParamList>()
@@ -44,8 +44,8 @@ function Home() {
         }}
       />
       <Drawer.Screen
-        name="ScheduleScreen"
-        component={ScheduleScreen}
+        name="FavorScreen"
+        component={FavorScreen}
         options={{
           headerShown: false
         }}

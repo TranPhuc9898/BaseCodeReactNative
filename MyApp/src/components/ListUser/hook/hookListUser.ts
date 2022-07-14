@@ -1,5 +1,7 @@
+import { updateProductByIds } from '@/redux/productSlice'
 import { SearchUsersGithubApi } from '@/services/githubTypes'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { searchUsersGithubAsync } from '../../../services/githubServices'
 
 function hookListUser() {
@@ -8,14 +10,14 @@ function hookListUser() {
       avatar_url: string
       login: string
       url: string
-      id: string
+      id: number
     }>
   >([])
 
   const [search, setSearch] = useState<string>('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-
+  const dispatch = useDispatch()
   useEffect(() => {
     if (search) {
       const fetchAPI = async (search: string) => {
@@ -23,11 +25,17 @@ function hookListUser() {
           const respUsers = await searchUsersGithubAsync({
             q: search,
             page: 1,
-            per_page: 10,
+            per_page: 3,
             sort: 'followers',
             order: 'asc'
           })
           console.log(search, 'data')
+          let productItems: any = []
+          for (const item of respUsers.items) {
+            productItems = productItems.concat(item)
+          }
+          dispatch(updateProductByIds(productItems))
+          console.log(productItems, 'productItems')
           setUsers(respUsers.items)
         } catch (err) {
           setError((err as Error)?.message || 'Something went wrong')

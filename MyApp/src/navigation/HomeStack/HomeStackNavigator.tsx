@@ -4,12 +4,12 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import HomeScreen from '../../screens/Home/HomeScreen'
 
-import ScheduleScreen from '../../screens/ScheduleScreen/ScheduleScreen'
+import FavorScreen from '../../screens/FavorScreen/FavorScreen'
 //import screen
 
 export type HomeStackParams = {
   HomeScreen: undefined
-  ScheduleScreen: undefined
+  FavorScreen: undefined
 }
 
 const HomeStack = createStackNavigator<HomeStackParams>()
@@ -21,7 +21,7 @@ const HomeStackNavigator = () => (
     }}
   >
     <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-    <HomeStack.Screen name="ScheduleScreen" component={ScheduleScreen} />
+    <HomeStack.Screen name="FavorScreen" component={FavorScreen} />
   </HomeStack.Navigator>
 )
 

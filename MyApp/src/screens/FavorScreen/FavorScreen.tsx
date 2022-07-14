@@ -1,82 +1,87 @@
 import {
+  FlatList,
+  Image,
   Linking,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Platform
+  View
 } from 'react-native'
-import React, { useState } from 'react'
-
-// import lib
+import React, { useEffect, useState } from 'react'
 import FastImage from 'react-native-fast-image'
-// import folder
-import color from '@/themes/colors/color'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
-import { addProductToCart } from '@/redux/checkOutCard'
+import { SearchUsersGithubApi } from '@/services/githubTypes'
+import color from '@/themes/colors/color'
 
-interface IUserCard {
-  login: string
-  id: number
-  url: string
-  avatar_url: string
-}
-const UserCard: React.FC<IUserCard> = ({ login, id, url, avatar_url }) => {
-  const [stateHeart, setStateHeart] = useState(false)
-  //Redux
-  const dispatch = useDispatch()
-
+const FavorScreen = () => {
   const checkoutCart = useSelector((state: RootState) => state.checkOutCart)
+  const [test, setTest] = useState<any>([])
+  const product = useSelector((state: RootState) => state.product)
 
-  const pressHeart = () => {
-    setStateHeart(!stateHeart)
-  }
-  return (
-    <View style={styles.Container}>
-      <View style={styles.Gradient}>
-        <View style={styles.Content}>
-          <View style={styles.Header}>
-            <Text numberOfLines={1} style={styles.Name}>
-              {login}
-            </Text>
+  useEffect(() => {
+    const data2 = product.productByIds
+    console.log(data2, 'data')
+    const result = checkoutCart?.cartGitHubIds.map((item, index) => {
+      if (data2[item]) {
+        return data2[item]
+      }
+    })
+
+    setTest(result)
+    console.log(result, 'result')
+  }, [checkoutCart])
+  console.log(test, 'test')
+
+  const renderDetailItems = ({
+    item,
+    index
+  }: {
+    item: SearchUsersGithubApi.SearchUsersGithubResponseData
+    index: number
+  }) => {
+    console.log(item, 'aaaaaaaaaaaaaa')
+    return (
+      <View style={styles.Container}>
+        <View style={styles.Gradient}>
+          <View style={styles.Content}>
+            <View style={styles.Header}>
+              <Text numberOfLines={1} style={styles.Name}>
+                {item?.login}
+              </Text>
+            </View>
           </View>
-        </View>
-        <View style={{ paddingTop: 50 }}>
-          <TouchableOpacity
-            onPress={() => Linking.openURL('https://github.com' + '/' + login)}
-          >
-            <FastImage
-              style={styles.defaultImage}
-              source={{ uri: avatar_url }}
-              resizeMode={FastImage.resizeMode.contain}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.Heart}>
-          <TouchableOpacity
-            style={styles.heartCircle}
-            onPress={pressHeart}
-            onPressIn={() => {
-              dispatch(addProductToCart(id.toString()))
-            }}
-          >
-            {stateHeart && (
+          <View style={{ paddingTop: 50 }}>
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL('https://github.com' + '/' + item.login)
+              }
+            >
               <FastImage
-                style={styles.heartImage}
-                source={require('../../assets/images/heart.png')}
+                style={styles.defaultImage}
+                source={{ uri: item.avatar_url }}
                 resizeMode={FastImage.resizeMode.contain}
               />
-            )}
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
+    )
+  }
+
+  return (
+    <View style={{ flex: 1 }}>
+      <FlatList
+        data={test}
+        renderItem={renderDetailItems}
+        keyExtractor={items => items?.id.toString()}
+      />
     </View>
   )
 }
 
-export default UserCard
+export default FavorScreen
 
 const styles = StyleSheet.create({
   Container: {
@@ -89,7 +94,10 @@ const styles = StyleSheet.create({
     backgroundColor: color.colors.purple,
     marginLeft: 20,
     marginBottom: 22,
-    borderRadius: 30
+    marginRight: 20,
+    marginTop: 35,
+    borderRadius: 30,
+    alignItems: 'center'
   },
   Gradient: {
     width: 260,

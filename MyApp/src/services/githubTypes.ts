@@ -5,8 +5,14 @@ export declare module SearchUsersGithubApi {
       avatar_url: string
       login: string
       url: string
-      id: string
+      id: number
     }>
+  }
+  interface SearchUsersGithubResponseData {
+    avatar_url: string
+    login: string
+    url: string
+    id: number
   }
 
   interface SearchUsersGithubParams {

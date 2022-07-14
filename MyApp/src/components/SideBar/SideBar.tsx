@@ -35,7 +35,7 @@ const SideBar: React.FC<ISideBar> = ({ openMenu }) => {
   const navigation = useNavigation()
 
   const Hello = () => {
-    navigation.navigate('ScheduleScreen')
+    navigation.navigate('FavorScreen')
   }
   return (
     <View style={styles.Container}>
@@ -50,7 +50,7 @@ const SideBar: React.FC<ISideBar> = ({ openMenu }) => {
           }}
         >
           <TouchableOpacity onPress={Hello}>
-            <Text>Schedule</Text>
+            <Text>FavorScreen</Text>
           </TouchableOpacity>
         </View>
       </Animated.View>

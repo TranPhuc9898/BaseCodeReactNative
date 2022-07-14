@@ -10,8 +10,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 // }
 
 interface ProductItem {
+  avatar_url: string
   login: string
-  id: string
+  url: string
+  id: number
 }
 
 interface ProductState {
@@ -31,13 +33,17 @@ const productSlice = createSlice({
 
     updateProductByIds: (state, action: PayloadAction<Array<ProductItem>>) => {
       const products = action.payload
-      console.log(products, '............')
+      console.log(products, 'productsRedux')
+      console.log(state.productByIds, ' state.productById')
       state.productByIds = products.reduce(
         (acc: Record<string, ProductItem>, item) => {
           acc[item.id] = {
+            url: item.url,
+            avatar_url: item.avatar_url,
             id: item.id,
             login: item.login
           }
+          console.log(acc, 'acc')
           return acc
         },
         {}

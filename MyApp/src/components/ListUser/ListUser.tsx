@@ -7,7 +7,7 @@ interface Props {
     avatar_url: string
     login: string
     url: string
-    id: string
+    id: number
   }>
 }
 
@@ -18,7 +18,7 @@ const renderUsers = ({
     avatar_url: string
     login: string
     url: string
-    id: string
+    id: number
   }
 }) => {
   return (

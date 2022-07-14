@@ -72,7 +72,6 @@ const SearchBar: React.FC<ISearchBar> = ({
         value={value}
         onChangeText={onChangeText}
       />
-      <Toast topOffset={3} visibilityTime={800} />
     </View>
   )
 }

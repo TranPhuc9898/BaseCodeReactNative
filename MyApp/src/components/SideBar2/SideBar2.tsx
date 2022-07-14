@@ -10,7 +10,7 @@ const SideBar2: React.FC<DrawerContentComponentProps> = ({ navigation }) => {
   }, [navigation])
 
   const handelNavigatePress = () => {
-    navigation.navigate('ScheduleScreen')
+    navigation.navigate('FavorScreen')
   }
 
   const handelNavigatePressMain = () => {
