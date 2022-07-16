@@ -15,6 +15,7 @@ import color from '@/themes/colors/color'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
 import { addProductToCart } from '@/redux/checkOutCard'
+import { useSharedValue } from 'react-native-reanimated'
 
 interface IUserCard {
   login: string
@@ -28,6 +29,8 @@ const UserCard: React.FC<IUserCard> = ({ login, id, url, avatar_url }) => {
   const dispatch = useDispatch()
 
   const checkoutCart = useSelector((state: RootState) => state.checkOutCart)
+
+  const y = useSharedValue(0)
 
   const pressHeart = () => {
     setStateHeart(!stateHeart)
