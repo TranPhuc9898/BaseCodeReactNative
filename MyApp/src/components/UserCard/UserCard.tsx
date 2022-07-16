@@ -4,9 +4,10 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform
+  Platform,
+  Animated
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 // import lib
 import FastImage from 'react-native-fast-image'
@@ -14,7 +15,7 @@ import FastImage from 'react-native-fast-image'
 import color from '@/themes/colors/color'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
-import { addProductToCart } from '@/redux/checkOutCard'
+import { addProductToCart, removeProductToCart } from '@/redux/checkOutCard'
 import { useSharedValue } from 'react-native-reanimated'
 
 interface IUserCard {
@@ -30,10 +31,45 @@ const UserCard: React.FC<IUserCard> = ({ login, id, url, avatar_url }) => {
 
   const checkoutCart = useSelector((state: RootState) => state.checkOutCart)
 
-  const y = useSharedValue(0)
+  const lastTap = useRef(0)
+  const isAnimating = useRef(false)
+  const animatedValue = useRef(new Animated.Value(0)).current
 
-  const pressHeart = () => {
-    setStateHeart(!stateHeart)
+  // const pressHeart = () => {
+  //   setStateHeart(!stateHeart)
+  // }
+  useEffect(() => {
+    if (stateHeart) {
+      Animated.timing(animatedValue, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true
+      }).start(() => (isAnimating.current = false))
+    } else {
+      animatedValue.setValue(0)
+      isAnimating.current = false
+    }
+  }, [animatedValue, stateHeart])
+
+  const heartAnimation = {
+    transform: [
+      {
+        scale: animatedValue.interpolate({
+          inputRange: [0, 0.1, 0.8, 1],
+          outputRange: [0, 2, 2, 1]
+        })
+      },
+      {
+        translateY: animatedValue.interpolate({
+          inputRange: [0, 0.1, 0.8, 1],
+          outputRange: [0, -40, -40, 1]
+        })
+      }
+    ]
+  }
+
+  const heartCircleAnimation = {
+    opacity: animatedValue
   }
   return (
     <View style={styles.Container}>
@@ -60,14 +96,19 @@ const UserCard: React.FC<IUserCard> = ({ login, id, url, avatar_url }) => {
         <View style={styles.Heart}>
           <TouchableOpacity
             style={styles.heartCircle}
-            onPress={pressHeart}
-            onPressIn={() => {
-              dispatch(addProductToCart(id.toString()))
+            activeOpacity={1}
+            onPress={() => {
+              if (stateHeart) {
+                dispatch(removeProductToCart(id.toString()))
+              } else {
+                dispatch(addProductToCart(id.toString()))
+              }
+              setStateHeart(!stateHeart)
             }}
           >
             {stateHeart && (
-              <FastImage
-                style={styles.heartImage}
+              <Animated.Image
+                style={[styles.heartImage, heartAnimation]}
                 source={require('../../assets/images/heart.png')}
                 resizeMode={FastImage.resizeMode.contain}
               />

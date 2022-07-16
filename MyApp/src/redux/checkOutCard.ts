@@ -19,8 +19,20 @@ const checkoutCartSlice = createSlice({
         state.cartGitHubIds = [...state.cartGitHubIds, gitHubId]
       }
       console.log(state.cartGitHubIds, 'state.cartProductIds1')
+    },
+
+    removeProductToCart: (state, action: PayloadAction<string>) => {
+      const gitHubIdDelete = action.payload
+
+      console.log(state.cartGitHubIds, ' state.cartGitHubIds'),
+        (state.cartGitHubIds = [...state.cartGitHubIds].filter(item => {
+          console.log(item !== gitHubIdDelete, 'hello')
+
+          return item !== gitHubIdDelete
+        }))
     }
   }
 })
-export const { addProductToCart } = checkoutCartSlice.actions
+export const { addProductToCart, removeProductToCart } =
+  checkoutCartSlice.actions
 export default checkoutCartSlice.reducer

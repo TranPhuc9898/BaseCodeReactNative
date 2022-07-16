@@ -6,20 +6,23 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Animated,
+  Button
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import FastImage from 'react-native-fast-image'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/redux/store'
 import { SearchUsersGithubApi } from '@/services/githubTypes'
 import color from '@/themes/colors/color'
+import { removeProductToCart } from '@/redux/checkOutCard'
 
 const FavorScreen = () => {
   const checkoutCart = useSelector((state: RootState) => state.checkOutCart)
   const [test, setTest] = useState<any>([])
   const product = useSelector((state: RootState) => state.product)
-
+  const dispatch = useDispatch()
   useEffect(() => {
     const data2 = product.productByIds
     console.log(data2, 'data')
@@ -45,6 +48,15 @@ const FavorScreen = () => {
     return (
       <View style={styles.Container}>
         <View style={styles.Gradient}>
+          <Button
+            color="red"
+            title="Delete"
+            onPress={() => {
+              console.log(item.id)
+              // đây là lúc gọi
+              dispatch(removeProductToCart(item.id.toString()))
+            }}
+          />
           <View style={styles.Content}>
             <View style={styles.Header}>
               <Text numberOfLines={1} style={styles.Name}>
@@ -58,7 +70,7 @@ const FavorScreen = () => {
                 Linking.openURL('https://github.com' + '/' + item.login)
               }
             >
-              <FastImage
+              <Animated.Image
                 style={styles.defaultImage}
                 source={{ uri: item.avatar_url }}
                 resizeMode={FastImage.resizeMode.contain}
