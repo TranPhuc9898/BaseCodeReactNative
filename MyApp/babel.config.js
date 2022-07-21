@@ -6,10 +6,12 @@ module.exports = {
       {
         root: ['./'],
         alias: {
-          '@': './src',
+          '@': './src'
         },
-      },
+        extensions: ['.svg']
+      }
     ],
-    'react-native-reanimated/plugin',
+    'react-native-reanimated/plugin'
   ],
-};
+  plugins: ['transform-inline-environment-variables']
+}
