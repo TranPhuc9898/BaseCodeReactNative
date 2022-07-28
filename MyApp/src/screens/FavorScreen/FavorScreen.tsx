@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   View,
   Animated,
-  Button
+  Button,
+  ScrollView
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import FastImage from 'react-native-fast-image'
@@ -17,10 +18,13 @@ import { RootState } from '@/redux/store'
 import { SearchUsersGithubApi } from '@/services/githubTypes'
 import color from '@/themes/colors/color'
 import { removeProductToCart } from '@/redux/checkOutCard'
+import FormInput from '@/components/FormInput/FormInput'
 
 const FavorScreen = () => {
   const checkoutCart = useSelector((state: RootState) => state.checkOutCart)
   const [test, setTest] = useState<any>([])
+
+  const [hello, setHello] = useState('')
   const product = useSelector((state: RootState) => state.product)
   const dispatch = useDispatch()
   useEffect(() => {
@@ -83,13 +87,24 @@ const FavorScreen = () => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <FlatList
+    <ScrollView style={{ width: 300, paddingTop: 100 }}>
+      {/* <FlatList
         data={test}
         renderItem={renderDetailItems}
         keyExtractor={items => items?.id.toString()}
-      />
-    </View>
+      /> */}
+      <View style={{ marginBottom: 50 }}>
+        <FormInput
+          label="Hello"
+          placeholder="Input Hello"
+          value={hello}
+          onChangeText={text => {
+            setHello(text.trim())
+          }}
+          autoCapitalize="none"
+        />
+      </View>
+    </ScrollView>
   )
 }
 

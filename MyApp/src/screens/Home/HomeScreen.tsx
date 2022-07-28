@@ -24,6 +24,7 @@ import SearchBar from '@/components/SearchBar/SearchBar'
 import debounce from 'lodash/debounce'
 import hookListUser from '@/components/ListUser/hook/hookListUser'
 import ListUser from '@/components/ListUser/ListUser'
+import FormInput from '@/components/FormInput/FormInput'
 
 const DELAY_DEBOUNCE_IN_MS = 1000
 
@@ -34,11 +35,11 @@ const handler = (value: string, callback: (newValue: string) => void) => {
 const debounceSearchUser = debounce(handler, DELAY_DEBOUNCE_IN_MS)
 
 const HomeScreen = () => {
-  const { setSearch, error, users, loading } = hookListUser()
+  const { setSearch, error, users, loading, search } = hookListUser()
 
   const handleOnChangeText = (value: string) => {
     debounceSearchUser(value, (newValue: string) => {
-      setSearch(newValue)
+      setSearch(newValue.trim())
     })
   }
 
@@ -89,6 +90,7 @@ const HomeScreen = () => {
             onChangeText={handleOnChangeText}
             placeHolder="Search..."
           />
+
           <ListUser products={users} />
         </ScrollView>
       </Animated.View>

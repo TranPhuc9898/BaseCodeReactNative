@@ -55,7 +55,8 @@ function hookListUser() {
     error,
     users,
     loading,
-    setLoading
+    setLoading,
+    search
   }
 }
 
