@@ -19,17 +19,20 @@ import { SearchUsersGithubApi } from '@/services/githubTypes'
 import color from '@/themes/colors/color'
 import { removeProductToCart } from '@/redux/checkOutCard'
 import FormInput from '@/components/FormInput/FormInput'
+import { useNavigation } from '@react-navigation/native'
 
 const FavorScreen = () => {
   const checkoutCart = useSelector((state: RootState) => state.checkOutCart)
   const [test, setTest] = useState<any>([])
+
+  const navigation = useNavigation()
 
   const [hello, setHello] = useState('')
   const product = useSelector((state: RootState) => state.product)
   const dispatch = useDispatch()
   useEffect(() => {
     const data2 = product.productByIds
-    console.log(data2, 'data')
+    console.log(data2, 'dataScreen')
     const result = checkoutCart?.cartGitHubIds.map((item, index) => {
       if (data2[item]) {
         return data2[item]
@@ -66,6 +69,15 @@ const FavorScreen = () => {
               <Text numberOfLines={1} style={styles.Name}>
                 {item?.login}
               </Text>
+              <View>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('DetailScreen')
+                  }}
+                >
+                  <Text>Detail Screen</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
           <View style={{ paddingTop: 90 }}>

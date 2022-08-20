@@ -15,6 +15,7 @@ import HomeScreen from '../screens/Home/HomeScreen'
 import SideBar from '../components/SideBar/SideBar'
 import SideBar2 from '../components/SideBar2/SideBar2'
 import FavorScreen from '../screens/FavorScreen/FavorScreen'
+import DetailScreen from '@/screens/DetailScreen/DetailScreen'
 
 export type RootStackParams = {
   HomeStackNavigator: undefined
@@ -22,6 +23,7 @@ export type RootStackParams = {
 export type HomeDrawerParamList = {
   HomeScreen: {}
   FavorScreen: {}
+  DetailScreen: {}
 }
 const Stack = createStackNavigator<RootStackParams>()
 const Drawer = createDrawerNavigator<HomeDrawerParamList>()
@@ -50,6 +52,13 @@ function Home() {
           headerShown: false
         }}
       />
+      <Drawer.Screen
+        name="DetailScreen"
+        component={DetailScreen}
+        options={{
+          headerShown: false
+        }}
+      />
     </Drawer.Navigator>
   )
 }
@@ -68,6 +77,13 @@ const AppNavigation = () => {
               <Stack.Screen
                 name="HomeScreen"
                 component={Home}
+                options={{
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name="DetailScreen"
+                component={DetailScreen}
                 options={{
                   headerShown: false
                 }}
