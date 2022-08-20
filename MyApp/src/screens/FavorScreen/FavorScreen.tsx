@@ -68,7 +68,7 @@ const FavorScreen = () => {
               </Text>
             </View>
           </View>
-          <View style={{ paddingTop: 50 }}>
+          <View style={{ paddingTop: 90 }}>
             <TouchableOpacity
               onPress={() =>
                 Linking.openURL('https://github.com' + '/' + item.login)
@@ -76,7 +76,7 @@ const FavorScreen = () => {
             >
               <Animated.Image
                 style={styles.defaultImage}
-                source={{ uri: item.avatar_url }}
+                source={{ uri: item?.avatar_url }}
                 resizeMode={FastImage.resizeMode.contain}
               />
             </TouchableOpacity>
@@ -88,12 +88,12 @@ const FavorScreen = () => {
 
   return (
     <ScrollView style={{ width: 300, paddingTop: 100 }}>
-      {/* <FlatList
+      <FlatList
         data={test}
         renderItem={renderDetailItems}
         keyExtractor={items => items?.id.toString()}
-      /> */}
-      <View style={{ marginBottom: 50 }}>
+      />
+      {/* <View style={{ marginBottom: 50 }}>
         <FormInput
           label="Hello"
           placeholder="Input Hello"
@@ -103,7 +103,7 @@ const FavorScreen = () => {
           }}
           autoCapitalize="none"
         />
-      </View>
+      </View> */}
     </ScrollView>
   )
 }
