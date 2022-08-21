@@ -18,6 +18,7 @@ const checkoutCartSlice = createSlice({
       if (!state.cartGitHubIds.find(id => id === gitHubId)) {
         state.cartGitHubIds = [...state.cartGitHubIds, gitHubId]
       }
+
       console.log(state.cartGitHubIds, 'state.cartProductIds1')
     },
 

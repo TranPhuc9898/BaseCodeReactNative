@@ -6,7 +6,7 @@ import {
   Text,
   View
 } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import Animated, {
   useAnimatedStyle,
@@ -53,16 +53,15 @@ const HomeScreen = () => {
   const [openSignModal, setOpenSignModal] = useState(false)
 
   useEffect(() => {
-    const options = { damping: 5 }
-
-    contentRotateY.value = withSpring(openMenu ? -30 : 0, options)
-    contentTranslateX.value = withSpring(openMenu ? 30 : 0, options)
+    // const options = { damping: 5 }
+    // contentRotateY.value = withSpring(openMenu ? -30 : 0, options)
+    // contentTranslateX.value = withSpring(openMenu ? 30 : 0, options)
   }, [openMenu, openOnboardModal])
 
   const animatedContentSyle = useAnimatedStyle(() => ({
     transform: [
       { translateX: 207 },
-      { perspective: 400 },
+      { perspective: 205 },
       { rotateY: `${contentRotateY.value}deg` },
       { translateX: -207 },
       { translateX: contentTranslateX.value }
@@ -101,7 +100,7 @@ const HomeScreen = () => {
   )
 }
 
-export default HomeScreen
+export default memo(HomeScreen)
 
 const styles = StyleSheet.create({
   view: {

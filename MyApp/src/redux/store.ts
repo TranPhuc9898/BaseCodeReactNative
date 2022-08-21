@@ -3,10 +3,12 @@ import { configureStore } from '@reduxjs/toolkit'
 // const store = createStore(rootReducer);
 import checkoutCartSlice from './checkOutCard'
 import productReducer from './productSlice'
+import detailReducer from './DetailSlice'
 const store = configureStore({
   reducer: {
     checkOutCart: checkoutCartSlice,
-    product: productReducer
+    product: productReducer,
+    detail: detailReducer
   }
 })
 

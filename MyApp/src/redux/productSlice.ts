@@ -34,7 +34,7 @@ const productSlice = createSlice({
     updateProductByIds: (state, action: PayloadAction<Array<ProductItem>>) => {
       const products = action.payload
       console.log(products, 'productsRedux')
-      console.log(state.productByIds, ' state.productById')
+
       state.productByIds = products.reduce(
         (acc: Record<string, ProductItem>, item) => {
           acc[item.id] = {
@@ -48,6 +48,7 @@ const productSlice = createSlice({
         },
         {}
       )
+      console.log(state.productByIds, ' state.productById')
     }
   }
 })

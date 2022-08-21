@@ -20,6 +20,8 @@ import color from '@/themes/colors/color'
 import { removeProductToCart } from '@/redux/checkOutCard'
 import FormInput from '@/components/FormInput/FormInput'
 import { useNavigation } from '@react-navigation/native'
+import { addDetailSlice } from '@/redux/DetailSlice'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 const FavorScreen = () => {
   const checkoutCart = useSelector((state: RootState) => state.checkOutCart)
@@ -59,7 +61,7 @@ const FavorScreen = () => {
             color="red"
             title="Delete"
             onPress={() => {
-              console.log(item.id)
+              console.log(item.id, 'caiccgiday')
               // đây là lúc gọi
               dispatch(removeProductToCart(item.id.toString()))
             }}
@@ -73,6 +75,7 @@ const FavorScreen = () => {
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate('DetailScreen')
+                    dispatch(addDetailSlice(item?.id.toString()))
                   }}
                 >
                   <Text>Detail Screen</Text>
@@ -80,7 +83,7 @@ const FavorScreen = () => {
               </View>
             </View>
           </View>
-          <View style={{ paddingTop: 90 }}>
+          <View style={{ paddingTop: 20 }}>
             <TouchableOpacity
               onPress={() =>
                 Linking.openURL('https://github.com' + '/' + item.login)
@@ -99,13 +102,21 @@ const FavorScreen = () => {
   }
 
   return (
-    <ScrollView style={{ width: 300, paddingTop: 100 }}>
-      <FlatList
-        data={test}
-        renderItem={renderDetailItems}
-        keyExtractor={items => items?.id.toString()}
-      />
-      {/* <View style={{ marginBottom: 50 }}>
+    <SafeAreaView>
+      <ScrollView
+        style={{
+          width: 'auto',
+          paddingTop: 20,
+          paddingLeft: 25,
+          paddingRight: 25
+        }}
+      >
+        <FlatList
+          data={test}
+          renderItem={renderDetailItems}
+          keyExtractor={items => items?.id.toString()}
+        />
+        {/* <View style={{ marginBottom: 50 }}>
         <FormInput
           label="Hello"
           placeholder="Input Hello"
@@ -116,7 +127,8 @@ const FavorScreen = () => {
           autoCapitalize="none"
         />
       </View> */}
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   )
 }
 
@@ -131,9 +143,7 @@ const styles = StyleSheet.create({
       height: 10
     },
     backgroundColor: color.colors.purple,
-    marginLeft: 20,
-    marginBottom: 22,
-    marginRight: 20,
+    marginBottom: 150,
     marginTop: 35,
     borderRadius: 30,
     alignItems: 'center'

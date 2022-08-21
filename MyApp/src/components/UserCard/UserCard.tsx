@@ -7,7 +7,7 @@ import {
   Platform,
   Animated
 } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 
 // import lib
 import FastImage from 'react-native-fast-image'
@@ -120,7 +120,7 @@ const UserCard: React.FC<IUserCard> = ({ login, id, url, avatar_url }) => {
   )
 }
 
-export default UserCard
+export default memo(UserCard)
 
 const styles = StyleSheet.create({
   Container: {

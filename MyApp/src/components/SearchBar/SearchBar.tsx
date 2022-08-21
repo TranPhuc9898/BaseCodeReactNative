@@ -6,7 +6,7 @@ import {
   View,
   ViewStyle
 } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 //
 import { KeyboardEvents } from 'react-native-keyboard-controller'
 import Toast from 'react-native-toast-message'
@@ -27,43 +27,7 @@ const SearchBar: React.FC<ISearchBar> = ({
   onChangeText,
   style
 }) => {
-  useEffect(() => {
-    const show = KeyboardEvents.addListener('keyboardWillShow', e => {
-      Toast.show({
-        type: 'info',
-        text1: '⬆️ ⌨️ Keyboard will show',
-        text2: `📲 Height: ${e.height}`
-      })
-    })
-    const shown = KeyboardEvents.addListener('keyboardDidShow', () => {
-      Toast.show({
-        type: 'success',
-        text1: '⌨️ Keyboard is shown',
-        text2: '👋'
-      })
-    })
-    const hide = KeyboardEvents.addListener('keyboardWillHide', e => {
-      Toast.show({
-        type: 'info',
-        text1: '⬇️ ⌨️ Keyboard will hide',
-        text2: `📲 Height: ${e.height}`
-      })
-    })
-    const hid = KeyboardEvents.addListener('keyboardDidHide', () => {
-      Toast.show({
-        type: 'error',
-        text1: '⌨️ Keyboard is hidden',
-        text2: '🤐'
-      })
-    })
-
-    return () => {
-      show.remove()
-      shown.remove()
-      hide.remove()
-      hid.remove()
-    }
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <View style={[styles.searchBar, style]}>
@@ -76,7 +40,7 @@ const SearchBar: React.FC<ISearchBar> = ({
   )
 }
 
-export default SearchBar
+export default memo(SearchBar)
 //   () {
 //   return (
 //     <>

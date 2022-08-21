@@ -18,6 +18,8 @@ var react_redux_1 = require("react-redux");
 var color_1 = require("@/themes/colors/color");
 var checkOutCard_1 = require("@/redux/checkOutCard");
 var native_1 = require("@react-navigation/native");
+var DetailSlice_1 = require("@/redux/DetailSlice");
+var react_native_safe_area_context_1 = require("react-native-safe-area-context");
 var FavorScreen = function () {
     var checkoutCart = react_redux_1.useSelector(function (state) { return state.checkOutCart; });
     var _a = react_1.useState([]), test = _a[0], setTest = _a[1];
@@ -43,7 +45,7 @@ var FavorScreen = function () {
         return (react_1["default"].createElement(react_native_1.View, { style: styles.Container },
             react_1["default"].createElement(react_native_1.View, { style: styles.Gradient },
                 react_1["default"].createElement(react_native_1.Button, { color: "red", title: "Delete", onPress: function () {
-                        console.log(item.id);
+                        console.log(item.id, 'caiccgiday');
                         // đây là lúc gọi
                         dispatch(checkOutCard_1.removeProductToCart(item.id.toString()));
                     } }),
@@ -53,16 +55,23 @@ var FavorScreen = function () {
                         react_1["default"].createElement(react_native_1.View, null,
                             react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
                                     navigation.navigate('DetailScreen');
+                                    dispatch(DetailSlice_1.addDetailSlice(item === null || item === void 0 ? void 0 : item.id.toString()));
                                 } },
                                 react_1["default"].createElement(react_native_1.Text, null, "Detail Screen"))))),
-                react_1["default"].createElement(react_native_1.View, { style: { paddingTop: 90 } },
+                react_1["default"].createElement(react_native_1.View, { style: { paddingTop: 20 } },
                     react_1["default"].createElement(react_native_1.TouchableOpacity, { onPress: function () {
                             return react_native_1.Linking.openURL('https://github.com' + '/' + item.login);
                         } },
                         react_1["default"].createElement(react_native_1.Animated.Image, { style: styles.defaultImage, source: { uri: item === null || item === void 0 ? void 0 : item.avatar_url }, resizeMode: react_native_fast_image_1["default"].resizeMode.contain }))))));
     };
-    return (react_1["default"].createElement(react_native_1.ScrollView, { style: { width: 300, paddingTop: 100 } },
-        react_1["default"].createElement(react_native_1.FlatList, { data: test, renderItem: renderDetailItems, keyExtractor: function (items) { return items === null || items === void 0 ? void 0 : items.id.toString(); } })));
+    return (react_1["default"].createElement(react_native_safe_area_context_1.SafeAreaView, null,
+        react_1["default"].createElement(react_native_1.ScrollView, { style: {
+                width: 'auto',
+                paddingTop: 20,
+                paddingLeft: 25,
+                paddingRight: 25
+            } },
+            react_1["default"].createElement(react_native_1.FlatList, { data: test, renderItem: renderDetailItems, keyExtractor: function (items) { return items === null || items === void 0 ? void 0 : items.id.toString(); } }))));
 };
 exports["default"] = FavorScreen;
 var styles = react_native_1.StyleSheet.create({
@@ -74,9 +83,7 @@ var styles = react_native_1.StyleSheet.create({
             height: 10
         },
         backgroundColor: color_1["default"].colors.purple,
-        marginLeft: 20,
-        marginBottom: 22,
-        marginRight: 20,
+        marginBottom: 150,
         marginTop: 35,
         borderRadius: 30,
         alignItems: 'center'
